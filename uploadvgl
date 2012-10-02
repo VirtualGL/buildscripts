@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -u
+set -e
+
+if [ $# -lt 1 ]; then
+	echo USAGE: $0 \<SourceForge user name\>
+	exit -1
+fi
+
+BUILDDIR=$HOME/src/vgl.nightly/latest/files
+PROJWEB=/home/project-web/virtualgl/htdocs/
+SSHSERVER=$1,virtualgl@shell.sourceforge.net
+
+if [ ! -d $BUILDDIR ]; then
+	echo No nightly build to upload!
+	exit -1
+fi
+
+echo Uploading build ...
+chmod 644 $BUILDDIR/*
+ssh $SSHSERVER create
+ssh $SSHSERVER mkdir $PROJWEB/vgl.nightly || true
+ssh $SSHSERVER rm $PROJWEB/vgl.nightly/* || true
+scp $BUILDDIR/* $SSHSERVER:$PROJWEB/vgl.nightly
+
+exit 0

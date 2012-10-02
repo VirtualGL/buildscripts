@@ -1,0 +1,74 @@
+set -u
+set -e
+
+if ls $OUTDIR/files/VirtualGL-[0-9]*.i386.rpm >/dev/null 2>&1 \
+	|| ls $OUTDIR/files/VirtualGL-[0-9]*.x86_64.rpm >/dev/null 2>&1 \
+	|| ls $OUTDIR/files/virtualgl*_[0-9]*_amd64.deb >/dev/null 2>&1 \
+	|| ls $OUTDIR/files/virtualgl*_[0-9]*_i386.deb >/dev/null 2>&1; then
+	if [ $FORCEBINARY = 0 ]; then
+		echo
+		echo Binary already exists!
+		echo Run $SCRIPT -fb to rebuild it.
+		echo
+		exit 1
+	else
+		rm -f $OUTDIR/files/*.i386.rpm $OUTDIR/files/*.x86_64.rpm $OUTDIR/files/*.deb
+	fi
+fi
+
+exec > $OUTDIR/log-$PLATFORM.txt 2>&1
+
+echo Creating binary RPMs ...
+
+mkdir -p rpmbuild/RPMS
+mkdir -p rpmbuild/BUILD
+mkdir -p rpmbuild/SRPMS
+mkdir -p rpmbuild/buildroot
+
+export CC=gcc4
+export CXX=g++4
+export CFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/x86_64-redhat-linux3E/lib64/'
+export CXXFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/x86_64-redhat-linux3E/lib64/'
+export LDFLAGS=
+export LD_LIBRARY_PATH=
+rpmbuild --rebuild --buildroot $TMPDIR/rpmbuild/buildroot \
+	--define "_topdir $TMPDIR/rpmbuild" $OUTDIR/files/VirtualGL-[0-9]*.src.rpm
+VERSION=`rpm -q -p rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm | cut -f2 -d-`
+mv rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
+mv rpmbuild/RPMS/x86_64/VirtualGL-debuginfo-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
+
+export CFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/i386-redhat-linux3E/lib/ -m32'
+export CXXFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/i386-redhat-linux3E/lib/ -m32'
+export LDFLAGS='-m32'
+rpmbuild --rebuild --buildroot $TMPDIR/rpmbuild/buildroot --target i386 \
+	--define "_topdir $TMPDIR/rpmbuild" $OUTDIR/files/VirtualGL-[0-9]*.src.rpm
+VERSION=`rpm -q -p rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm | cut -f2 -d-`
+mv rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
+mv rpmbuild/RPMS/i386/VirtualGL-debuginfo-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
+
+echo Creating binary DEBs ...
+
+rm -rf rpmbuild
+pushd VirtualGL-[0-9]*
+mkdir linux64 linux
+
+pushd linux64
+export CFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/x86_64-redhat-linux3E/lib64/'
+export CXXFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/x86_64-redhat-linux3E/lib64/'
+export LDFLAGS=
+cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 ..
+make deb
+mv virtualgl_[0-9]*_amd64.deb $OUTDIR/files/
+popd
+
+pushd linux
+export CFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/i386-redhat-linux3E/lib/ -m32'
+export CXXFLAGS='-I /usr/lib/x86_64-redhat-linux3E/include -B /usr/lib/i386-redhat-linux3E/lib/ -m32'
+export LDFLAGS='-m32'
+cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 ..
+make deb
+mv virtualgl_[0-9]*_i386.deb $OUTDIR/files/
+mv virtualgl32_[0-9]*_amd64.deb $OUTDIR/files/
+popd
+
+popd
