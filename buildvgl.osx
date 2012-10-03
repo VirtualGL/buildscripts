@@ -9,7 +9,7 @@ if ls $OUTDIR/files/VirtualGL-[0-9]*.dmg >/dev/null 2>&1; then
 		echo
 		exit 1
 	else
-		rm -f $OUTDIR/files/VirtualGL.dmg
+		rm -f $OUTDIR/files/VirtualGL*.dmg
 	fi
 fi
 
