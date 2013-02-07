@@ -56,7 +56,7 @@ Build Procedure
 
 Executing
 
-  buildvgl <repository path>
+  buildvgl [repository path]
 
 (where repository path is, for instance, "branches/2.2.x", and defaults to
 "trunk") will generate both a pristine source tarball and binaries for the
