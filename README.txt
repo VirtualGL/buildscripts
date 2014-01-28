@@ -2,7 +2,7 @@ DRC's VirtualGL Build Scripts
 =============================
 
 These scripts are used to build the "official" VirtualGL binaries, which work
-on any Linux platform with GLIB 2.3.2 and later, as well as Windows XP and
+on any Linux platform with GLIB 2.3.4 and later, as well as Windows XP and
 later and OS X 10.4 and later.
 
 See BUILDING.txt in the VirtualGL source for basic build requirements.
