@@ -20,19 +20,17 @@ pushd VirtualGL-[0-9]*
 
 mkdir osxx86
 pushd osxx86
-export CC=/Developer/usr/bin/gcc-4.0
-export CXX=/Developer/usr/bin/g++-4.0
+export CC=/Developer/usr/bin/gcc-4.2
+export CXX=/Developer/usr/bin/g++-4.2
 export CFLAGS='-m32'
 export CXXFLAGS='-m32'
 export LDFLAGS='-m32'
-cmake -G"Unix Makefiles" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.4 -DCMAKE_OSX_SYSROOT=/Developer/SDKs/MacOSX10.4u.sdk -DCMAKE_VERBOSE_MAKEFILE=1 ..
+cmake -G"Unix Makefiles" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.5 -DCMAKE_OSX_SYSROOT=/Developer/SDKs/MacOSX10.5.sdk -DCMAKE_VERBOSE_MAKEFILE=1 ..
 make
 popd
 
 mkdir osxx8664
 pushd osxx8664
-export CC=/Developer/usr/bin/gcc-4.2
-export CXX=/Developer/usr/bin/g++-4.2
 export CFLAGS=
 export CXXFLAGS=
 export LDFLAGS=
