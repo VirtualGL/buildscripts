@@ -175,7 +175,7 @@ fi
 cd $TMPDIR
 if [ $NOSRC = 0 ]; then
 	echo Checking out VirtualGL from $TAG ...
-	svn export https://svn.code.sf.net/p/virtualgl/code/vgl/$TAG vgl
+	svn export https://svn.code.sf.net/p/virtualgl/code/$TAG vgl
 	echo Creating source tarball and SRPM ...
 	pushd vgl
 	VERSION=`grep "set(VERSION" CMakeLists.txt | sed -e s/[^0-9\.]//g`
