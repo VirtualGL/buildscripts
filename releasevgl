@@ -29,6 +29,9 @@ scp $BUILDDIR/cygwin/x86_64/*.tar.bz2 $SSHSERVER:$FRSDIR/cygwin/x86_64
 ssh $SSHSERVER << EOF
 	rm "$FRSDIR/$2/files.txt" "$FRSDIR/$2/index.html"
 	cd "$FRSDIR"
+	pushd ~/buildscripts/virtualgl
+	svn update
+	popd
 	~/buildscripts/virtualgl/gencygini
 EOF
 exit 0
