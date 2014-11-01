@@ -22,7 +22,7 @@ pushd win64
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=1 ..
 nmake installer 2>&1
 nmake 2>&1
-mv VirtualGL64-[0-9]*.exe $OUTDIR/files/
+mv VirtualGL*.exe $OUTDIR/files/
 popd
 
 . `dirname $0`/vc32
@@ -31,7 +31,7 @@ pushd win32
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=1 ..
 nmake installer 2>&1
 nmake 2>&1
-mv VirtualGL-[0-9]*.exe $OUTDIR/files/
+mv VirtualGL*.exe $OUTDIR/files/
 popd
 
 popd
