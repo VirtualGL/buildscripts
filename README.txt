@@ -2,7 +2,7 @@ DRC's VirtualGL Build Scripts
 =============================
 
 These scripts are used to build the "official" VirtualGL binaries, which work
-on any Linux platform with GLIB 2.3.4 and later, as well as Windows XP and
+on any Linux platform with GLIB 2.5 and later, as well as Windows XP and
 later and OS X 10.5 and later.
 
 See BUILDING.txt in the VirtualGL source for basic build requirements.
@@ -12,14 +12,10 @@ Additional build requirements for these scripts are listed below.
 Build Environment: Linux
 ------------------------
 
-Recommended distro:  Red Hat or CentOS Enterprise Linux 4 64-bit
+Recommended distro:  Red Hat or CentOS Enterprise Linux 5 64-bit
 
 All development kits necessary to build a 32-bit and a 64-bit version of
 VirtualGL (libjpeg-turbo SDK's should be installed in the default location.)
-
-NOTE:  If building on a distro that already has GCC 4, you should edit
-buildvgl.linux and remove the lines that say "CC=gcc4" and "CXX=g++4".
-Or, you could just create sym links from gcc4 -> gcc and g++4 -> g++.
 
 
 Build Environment: OS X
