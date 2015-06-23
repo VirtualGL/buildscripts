@@ -21,17 +21,15 @@ VirtualGL (libjpeg-turbo SDK's should be installed in the default location.)
 Build Environment: OS X
 -----------------------
 
-OS X 10.6 (Snow Leopard) or later required
+OS X 10.7 (Lion) or later required
 
 Xcode 4.3.x (available at https://developer.apple.com/downloads --
 Apple ID required.)  The build scripts need this in order to produce VirtualGL
 binaries that are backward compatible with OS X 10.5.  Xcode should be
-installed under /Applications/Xcode43.app.  NOTE:  Although Xcode43.app can't
-be run on Snow Leopard, the build scripts can still use the SDKs contained
-within it.
+installed under /Applications/Xcode43.app.
 
-If using OS X 10.7 or later as a build platform, then XQuartz must be
-installed (XQuartz provides the X11 headers and link libraries.)
+XQuartz must be installed (XQuartz provides the X11 headers and link
+libraries.)
 
 CMake should be installed somewhere in the PATH.  The version in MacPorts
 (http://www.MacPorts.org) works, or just install the CMake application from
