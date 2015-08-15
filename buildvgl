@@ -196,6 +196,11 @@ if [ $NOSRC = 0 ]; then
 		cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 		make srpm
 		mv VirtualGL-$VERSION.src.rpm $OUTDIR/files/
+		if [ -f $SCRIPTDIR/gpgsign ]; then
+			. $SCRIPTDIR/gpgsign
+			expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.src.rpm
+			rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.src.rpm
+		fi
 		popd
 		popd
 	fi

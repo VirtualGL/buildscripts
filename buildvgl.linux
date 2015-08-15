@@ -1,6 +1,8 @@
 set -u
 set -e
 
+SCRIPTDIR=`dirname $0`
+
 if ls $OUTDIR/files/VirtualGL-[0-9]*.i386.rpm >/dev/null 2>&1 \
 	|| ls $OUTDIR/files/VirtualGL-[0-9]*.x86_64.rpm >/dev/null 2>&1 \
 	|| ls $OUTDIR/files/virtualgl*_[0-9]*_amd64.deb >/dev/null 2>&1 \
@@ -35,6 +37,14 @@ VERSION=`rpm -q -p rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm | cut -f2 -d
 mv rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
 mv rpmbuild/RPMS/x86_64/VirtualGL-debuginfo-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
 
+if [ -f $SCRIPTDIR/gpgsign ]; then
+	. $SCRIPTDIR/gpgsign
+	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
+	rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
+	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
+	rpm --checksig $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
+fi
+
 export CFLAGS='-m32'
 export CXXFLAGS='-m32'
 export LDFLAGS='-m32'
@@ -43,6 +53,13 @@ rpmbuild --rebuild --buildroot $TMPDIR/rpmbuild/buildroot --target i386 \
 VERSION=`rpm -q -p rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm | cut -f2 -d-`
 mv rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
 mv rpmbuild/RPMS/i386/VirtualGL-debuginfo-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
+
+if [ -f $SCRIPTDIR/gpgsign ]; then
+	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
+	rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
+	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
+	rpm --checksig $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
+fi
 
 echo Creating binary DEBs ...
 
@@ -57,6 +74,9 @@ export LDFLAGS=
 cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 ..
 make deb
 mv virtualgl_[0-9]*_amd64.deb $OUTDIR/files/
+if [ -f $SCRIPTDIR/gpgsign ]; then
+	expect $SCRIPTDIR/debsign "$GPG_KEY_PASS" "$GPG_KEY_ID" $OUTDIR/files/virtualgl_[0-9]*_amd64.deb
+fi
 popd
 
 pushd linux
@@ -67,6 +87,10 @@ cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 ..
 make deb
 mv virtualgl_[0-9]*_i386.deb $OUTDIR/files/
 mv virtualgl32_[0-9]*_amd64.deb $OUTDIR/files/
+if [ -f $SCRIPTDIR/gpgsign ]; then
+	expect $SCRIPTDIR/debsign "$GPG_KEY_PASS" "$GPG_KEY_ID" $OUTDIR/files/virtualgl_[0-9]*_i386.deb
+	expect $SCRIPTDIR/debsign "$GPG_KEY_PASS" "$GPG_KEY_ID" $OUTDIR/files/virtualgl32_[0-9]*_amd64.deb
+fi
 popd
 
 popd

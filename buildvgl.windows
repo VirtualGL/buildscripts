@@ -1,6 +1,8 @@
 set -u
 set -e
 
+SCRIPTDIR=`dirname $0`
+
 if ls $OUTDIR/files/VirtualGL*.exe >/dev/null 2>&1; then
 	if [ $FORCEBINARY = 0 ]; then
 		echo
@@ -23,6 +25,11 @@ cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=1 
 nmake installer 2>&1
 nmake 2>&1
 mv VirtualGL*.exe $OUTDIR/files/
+if [ -f $SCRIPTDIR/mssign ]; then
+	. $SCRIPTDIR/mssign
+	signtool sign -f "$MS_KEY_FILE" -t http://timestamp.verisign.com/scripts/timstamp.dll -p "$MS_KEY_PASS" $OUTDIR/files/VirtualGL*64-[0-9]*.exe
+	signtool verify -pa $OUTDIR/files/VirtualGL*64-[0-9]*.exe
+fi
 popd
 
 . `dirname $0`/vc32
@@ -32,6 +39,10 @@ cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=1 
 nmake installer 2>&1
 nmake 2>&1
 mv VirtualGL*.exe $OUTDIR/files/
+if [ -f $SCRIPTDIR/mssign ]; then
+	signtool sign -f "$MS_KEY_FILE" -t http://timestamp.verisign.com/scripts/timstamp.dll -p "$MS_KEY_PASS" $OUTDIR/files/*[^6][^4]-[0-9]*.exe
+	signtool verify -pa $OUTDIR/files/*[^6][^4]-[0-9]*.exe
+fi
 popd
 
 popd
