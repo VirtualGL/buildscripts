@@ -102,7 +102,7 @@ export FORCEBINARY=0
 SRCONLY=0
 NOSRC=0
 UPDATELIST=0
-TAG=trunk
+TAG=master
 
 while [ $# -gt 0 ]; do
 	if [ "$1" = "-f" ]; then
@@ -175,7 +175,8 @@ fi
 cd $TMPDIR
 if [ $NOSRC = 0 ]; then
 	echo Checking out VirtualGL from $TAG ...
-	svn export https://svn.code.sf.net/p/virtualgl/code/$TAG vgl
+	git clone --depth=1 -b $TAG https://github.com/VirtualGL/virtualgl.git vgl
+	rm -rf vgl/.git
 	echo Creating source tarball and SRPM ...
 	pushd vgl
 	VERSION=`grep "set(VERSION" CMakeLists.txt | sed -e s/[^0-9\.]//g`
