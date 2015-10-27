@@ -153,6 +153,7 @@ else
 	else
 		if [ $NOSRC = 0 ]; then
 			if [ -d $OUTDIR/files ]; then
+				rm -rf $OUTDIR/files/cygwin
 				rm -f $OUTDIR/files/*
 				rmdir $OUTDIR/files
 			fi
