@@ -21,7 +21,7 @@ pushd VirtualGL-[0-9]*
 
 mkdir win64
 pushd win64
-cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=1 ..
+$SCRIPTDIR/setupscripts/win
 nmake installer 2>&1
 nmake 2>&1
 mv VirtualGL*.exe $OUTDIR/files/
@@ -32,10 +32,10 @@ if [ -f $SCRIPTDIR/mssign ]; then
 fi
 popd
 
-. `dirname $0`/vc32
+. $SCRIPTDIR/vc32
 mkdir win32
 pushd win32
-cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=1 ..
+$SCRIPTDIR/setupscripts/win
 nmake installer 2>&1
 nmake 2>&1
 mv VirtualGL*.exe $OUTDIR/files/

@@ -1,0 +1,18 @@
+CMAKE_BUILD_TYPE=Release
+
+if [ "$1" = "-g" ]; then
+	CMAKE_BUILD_TYPE=RelWithDebInfo
+	shift
+fi
+
+OSX_PLATFORMDIR=/Applications/Xcode43.app/Contents/Developer
+
+export CFLAGS='-Wall'
+export CXXFLAGS='-Wall'
+export CC=$OSX_PLATFORMDIR/usr/bin/gcc
+export CXX=$OSX_PLATFORMDIR/usr/bin/g++
+
+cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+	-DCMAKE_OSX_DEPLOYMENT_TARGET=10.5 \
+	-DCMAKE_OSX_SYSROOT=$OSX_PLATFORMDIR/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk \
+	.. ${1+"$@"}
