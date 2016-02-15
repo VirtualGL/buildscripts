@@ -1,6 +1,8 @@
 set -u
 set -e
 
+SCRIPTDIR=`dirname $0`
+
 if ls $OUTDIR/files/cygwin/x86/VirtualGL-*-*.tar.bz2 >/dev/null 2>&1; then
 	if [ $FORCEBINARY = 0 ]; then
 		echo
@@ -20,7 +22,7 @@ pushd VirtualGL-[0-9]*
 
 mkdir cyg
 pushd cyg
-cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 ..
+$SCRIPTDIR/setupscripts/cygwin
 make cygwinpkg
 mkdir -p $OUTDIR/files/cygwin/x86
 mv VirtualGL-[0-9]*-*.tar.bz2 $OUTDIR/files/cygwin/x86/

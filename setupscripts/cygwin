@@ -1,0 +1,12 @@
+CMAKE_BUILD_TYPE=Release
+
+if [ "$1" = "-g" ]; then
+	CMAKE_BUILD_TYPE=RelWithDebInfo
+	shift
+fi
+
+CFLAGS=-Wall CXXFLAGS=-Wall \
+cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+	-DTJPEG_INCLUDE_DIR=/usr/include \
+	-DTJPEG_LIBRARY=-lturbojpeg \
+	.. ${1+"$@"}
