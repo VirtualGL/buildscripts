@@ -194,7 +194,7 @@ if [ $NOSRC = 0 ]; then
 		mkdir build
 		pushd build
 		ln -fs ../../VirtualGL-$VERSION.tar.gz .
-		cmake -G"Unix Makefiles" -DCMAKE_VERBOSE_MAKEFILE=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+		cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 		make srpm
 		mv VirtualGL-$VERSION.src.rpm $OUTDIR/files/
 		if [ -f $SCRIPTDIR/gpgsign ]; then
