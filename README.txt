@@ -5,7 +5,7 @@ These scripts are used to build the "official" VirtualGL binaries, which work
 on any Linux platform with GLIB 2.5 and later, as well as Windows XP and
 later and OS X 10.5 and later.
 
-See BUILDING.txt in the VirtualGL source for basic build requirements.
+See BUILDING.md in the VirtualGL source for basic build requirements.
 Additional build requirements for these scripts are listed below.
 
 
@@ -57,11 +57,11 @@ Build Procedure
 
 Executing
 
-  buildvgl [repository path]
+  buildvgl [branch/tag]
 
-(where repository path is, for instance, "branches/2.2.x", and defaults to
-"trunk") will generate both a pristine source tarball and binaries for the
-platform on which the script is executed.  These are placed under
+(where branch/tag is, for instance, "2.4.x" and defaults to "master") will
+generate both a pristine source tarball and binaries for the platform on which
+the script is executed.  These are placed under
 $HOME/src/vgl.nightly/YYYYMMDD/files, where YYYYMMDD is a build number based
 on today's date.  If the build is successful, then a sym link will be created
 from $HOME/src/vgl.nightly/latest to $HOME/src/vgl.nightly/YYYYMMDD.
@@ -70,7 +70,7 @@ Once a full build is completed on one platform, then you can use the existing
 source tarball to build binaries on other platforms by running 'buildvgl -e'
 (assuming that $HOME/src is a shared directory.)
 
-NOTE: On Windows, buildvgl should be run from inside a MinGW shell.  If you
+NOTE: On Windows, buildvgl should be run from inside an MSYS shell.  If you
 are mounting your home directory as a drive letter (e.g. H:), then set the HOME
 environment variable to the MinGW path for that drive (e.g. /h) prior to
 running buildvgl.
