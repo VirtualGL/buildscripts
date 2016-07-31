@@ -177,7 +177,6 @@ cd $TMPDIR
 if [ $NOSRC = 0 ]; then
 	echo Checking out VirtualGL from $TAG ...
 	git clone --depth=1 -b $TAG https://github.com/VirtualGL/virtualgl.git vgl
-	rm -rf vgl/.git
 	echo Creating source tarball and SRPM ...
 	pushd vgl
 	VERSION=`grep "set(VERSION" CMakeLists.txt | sed -e s/[^0-9\.]//g`
@@ -185,16 +184,12 @@ if [ $NOSRC = 0 ]; then
 		echo Could not parse version from CMakeLists.txt!
 		exit 1
 	fi
-	popd
-	mv vgl VirtualGL-$VERSION
-	tar -z -cf VirtualGL-$VERSION.tar.gz VirtualGL-$VERSION
+	mkdir build
+	pushd build
+	cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+	make dist
 	cp VirtualGL-$VERSION.tar.gz $OUTDIR/files
 	if [ "$PLATFORM" = "linux" ]; then
-		pushd VirtualGL-$VERSION
-		mkdir build
-		pushd build
-		ln -fs ../../VirtualGL-$VERSION.tar.gz .
-		cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 		make srpm
 		mv VirtualGL-$VERSION.src.rpm $OUTDIR/files/
 		if [ -f $SCRIPTDIR/gpgsign ]; then
@@ -202,10 +197,10 @@ if [ $NOSRC = 0 ]; then
 			expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 			rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 		fi
-		popd
-		popd
 	fi
-	rm -rf VirtualGL-$VERSION
+	popd
+	popd
+	rm -rf vgl
 else
 	if [ "$PLATFORM" = "linux" ]; then
 		if ! ls $OUTDIR/files/VirtualGL-[0-9]*.tar.gz >/dev/null 2>&1
