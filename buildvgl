@@ -189,6 +189,14 @@ if [ $NOSRC = 0 ]; then
 	cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 	make dist
 	cp VirtualGL-$VERSION.tar.gz $OUTDIR/files
+	if [ -f $SCRIPTDIR/gpgsign ]; then
+		. $SCRIPTDIR/gpgsign
+		if [ -f $OUTDIR/files/VirtualGL-$VERSION.tar.gz.sig ]; then
+			rm -f $OUTDIR/files/VirtualGL-$VERSION.tar.gz.sig
+		fi
+		gpg --batch --default-key "$GPG_KEY_ID" --passphrase "$GPG_KEY_PASS" --detach-sig $OUTDIR/files/VirtualGL-$VERSION.tar.gz
+		gpg --verify $OUTDIR/files/VirtualGL-$VERSION.tar.gz.sig
+	fi
 	if [ "$PLATFORM" = "linux" ]; then
 		make srpm
 		mv VirtualGL-$VERSION.src.rpm $OUTDIR/files/
