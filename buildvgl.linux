@@ -72,7 +72,7 @@ export CFLAGS=
 export CXXFLAGS=
 export LDFLAGS=
 $SCRIPTDIR/setupscripts/linux64
-make deb
+make -j deb
 mv virtualgl_[0-9]*_amd64.deb $OUTDIR/files/
 if [ -f $SCRIPTDIR/gpgsign ]; then
 	expect $SCRIPTDIR/debsign "$GPG_KEY_PASS" "$GPG_KEY_ID" $OUTDIR/files/virtualgl_[0-9]*_amd64.deb
@@ -81,7 +81,7 @@ popd
 
 pushd linux
 $SCRIPTDIR/setupscripts/linux
-make deb
+make -j deb
 mv virtualgl_[0-9]*_i386.deb $OUTDIR/files/
 mv virtualgl32_[0-9]*_amd64.deb $OUTDIR/files/
 if [ -f $SCRIPTDIR/gpgsign ]; then

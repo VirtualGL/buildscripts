@@ -23,13 +23,13 @@ pushd VirtualGL-[0-9]*
 mkdir osxx86
 pushd osxx86
 $SCRIPTDIR/setupscripts/osxx86
-make
+make -j
 popd
 
 mkdir osxx8664
 pushd osxx8664
 $SCRIPTDIR/setupscripts/osxx8664
-make udmg
+make -j udmg
 mv VirtualGL-[0-9]*.dmg $OUTDIR/files/
 popd
 
