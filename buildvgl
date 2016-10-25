@@ -60,6 +60,7 @@ usage()
 	echo "-s = Build source tarball only"
 	echo "-l = Generate file list and HTML index"
 	echo "-b <b> = Specify build directory (default = ~/src/vgl.nightly/$BUILD)"
+	echo "-v = Verbose (show the output of the build in real time)"
  	echo
 	exit 1
 }
@@ -107,6 +108,7 @@ export FORCEBINARY=0
 SRCONLY=0
 NOSRC=0
 UPDATELIST=0
+VERBOSE=0
 TAG=master
 
 while [ $# -gt 0 ]; do
@@ -125,6 +127,8 @@ while [ $# -gt 0 ]; do
 		shift
 	elif [ "$1" = "-l" ]; then
 		UPDATELIST=1
+	elif [ "$1" = "-v" ]; then
+		VERBOSE=1
 	elif [ "$1" = "-h" -o "$1" = "-?" ]; then
 		usage
 	else
@@ -237,7 +241,11 @@ echo Untarring VirtualGL ...
 tar xfz $OUTDIR/files/VirtualGL-[0-9]*.tar.gz
 echo   done.
 echo Building VirtualGL for $PLATFORM...
-sh $SCRIPTDIR/buildvgl.$PLATFORM
+if [ $VERBOSE = 1 ]; then
+	sh $SCRIPTDIR/buildvgl.$PLATFORM | tee $OUTDIR/log-$PLATFORM.txt
+else
+	sh $SCRIPTDIR/buildvgl.$PLATFORM > $OUTDIR/log-$PLATFORM.txt
+fi
 echo   done.
 
 update_list
