@@ -198,7 +198,7 @@ if [ $NOSRC = 0 ]; then
 	echo Creating source tarball and SRPM ...
 	cp -R vgl vgl.pristine
 	pushd vgl.pristine
-	rm -rf .git .gitattributes .gitignore .travis.yml ci
+	rm -rf .git .gitattributes .gitignore .travis.yml appveyor.yml ci
 	popd
 	pushd vgl
 	VERSION=`grep "set(VERSION" CMakeLists.txt | sed -e s/[^0-9\.]//g`
