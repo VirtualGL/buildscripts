@@ -33,5 +33,6 @@ ssh $SSHSERVER << EOF
 	git pull
 	popd
 	~/buildscripts/virtualgl/gencygini
+	~/bin/createrepo -x OldFiles/* -s sha1 $FRSDIR
 EOF
 exit 0
