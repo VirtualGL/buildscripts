@@ -15,4 +15,5 @@ export CXX=$OSX_PLATFORMDIR/usr/bin/g++
 cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
 	-DCMAKE_OSX_DEPLOYMENT_TARGET=10.5 \
 	-DCMAKE_OSX_SYSROOT=$OSX_PLATFORMDIR/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk \
+	-DCMAKE_LIBRARY_PATH=/opt/X11/lib \
 	.. ${1+"$@"}
