@@ -63,6 +63,8 @@ usage()
 	echo "-l = Generate file list and HTML index"
 	echo "-r <url> = Specify Git repository URL"
 	echo "           (default = $DEFAULT_REPO)"
+	echo "-d <dir> = Build from existing source directory, located under <dir>"
+	echo "           (useful for continuous integration)"
 	echo "-s = Generate source package(s) only"
 	echo "-v = Verbose (show the output of the build in real time)"
 	echo
@@ -116,6 +118,7 @@ VERBOSE=0
 TAG=master
 DEFAULT_REPO=https://github.com/VirtualGL/virtualgl.git
 REPO=$DEFAULT_REPO
+SRCDIR=
 
 while [ $# -gt 0 ]; do
 	if [ "$1" = "-f" ]; then
@@ -137,6 +140,9 @@ while [ $# -gt 0 ]; do
 		VERBOSE=1
 	elif [ "$1" = "-r" ]; then
 		REPO=$2
+		shift
+	elif [ "$1" = "-d" ]; then
+		SRCDIR=$2
 		shift
 	elif [ "$1" = "-h" -o "$1" = "-?" ]; then
 		usage
@@ -193,14 +199,20 @@ else
 fi
 cd $TMPDIR
 if [ $NOSRC = 0 ]; then
-	echo Checking out VirtualGL from $TAG ...
-	git clone --depth=1 -b $TAG $REPO vgl
+	if [ ! "$SRCDIR" = "" ]; then
+		echo Using existing source directory $SRCDIR ...
+		DIR=$SRCDIR
+	else
+		echo Checking out VirtualGL from $TAG ...
+		git clone --depth=1 -b $TAG $REPO vgl
+		DIR=vgl
+	fi
 	echo Creating source tarball and SRPM ...
-	cp -R vgl vgl.pristine
+	cp -R $DIR vgl.pristine
 	pushd vgl.pristine
 	rm -rf .git .gitattributes .gitignore .travis.yml appveyor.yml ci
 	popd
-	pushd vgl
+	pushd $DIR
 	VERSION=`grep "set(VERSION" CMakeLists.txt | sed -e s/[^0-9\.]//g`
 	if [ "$VERSION" = "" ]; then
 		echo Could not parse version from CMakeLists.txt!
@@ -214,7 +226,7 @@ if [ $NOSRC = 0 ]; then
 		make dist
 	fi
 	popd
-	mv vgl/VirtualGL-$VERSION.tar.gz $OUTDIR/files
+	mv $DIR/VirtualGL-$VERSION.tar.gz $OUTDIR/files/
 	tar xfz $OUTDIR/files/VirtualGL-$VERSION.tar.gz
 	diff -r vgl.pristine VirtualGL-$VERSION
 	rm -rf vgl.pristine
@@ -227,17 +239,20 @@ if [ $NOSRC = 0 ]; then
 		gpg --verify $OUTDIR/files/VirtualGL-$VERSION.tar.gz.sig
 	fi
 	if [ "$PLATFORM" = "linux" ]; then
-		pushd vgl
+		pushd $DIR
 		make srpm
 		popd
-		mv vgl/VirtualGL-$VERSION.src.rpm $OUTDIR/files/
+		mv $DIR/VirtualGL-$VERSION.src.rpm $OUTDIR/files/
 		if [ -f $SCRIPTDIR/gpgsign ]; then
 			. $SCRIPTDIR/gpgsign
 			expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 			rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 		fi
 	fi
-	rm -rf vgl vgl-$VERSION
+	rm -rf VirtualGL-$VERSION
+	if [ "$SRCDIR" = "" ]; then
+		rm -rf vgl
+	fi
 else
 	if [ "$PLATFORM" = "linux" ]; then
 		if ! ls $OUTDIR/files/VirtualGL-[0-9]*.tar.gz >/dev/null 2>&1
