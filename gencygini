@@ -25,9 +25,16 @@ EOF
 			SIZE=`ls -l $i | awk '{print $5}'`
 			MD5SUM=`md5sum -b $i | awk '{print $1}'`
 			echo Found $PACKAGE version $VERSION build $BUILD
-			TURBOJPEG=
+			EXTRADEPS=
+			if [ ! "$VERSION" = "`echo -e "$VERSION\n2.5.2" | sort -V | head -n1`" ]; then
+				EXTRADEPS=libXtst6
+			fi
 			if [ ! "$VERSION" = "`echo -e "$VERSION\n2.4.90" | sort -V | head -n1`" ]; then
-				TURBOJPEG=libturbojpeg0
+				if [ "$EXTRADEPS" = "" ]; then
+					EXTRADEPS=libturbojpeg0
+				else
+					EXTRADEPS="$EXTRADEPS "libturbojpeg0
+				fi
 			fi
 			cat <<EOF >>$DIR/cygwin/$ARCH/setup.ini
 
@@ -36,7 +43,7 @@ sdesc: "Official VirtualGL Client"
 ldesc: "Official VirtualGL Client"
 category: VirtualGL
 version: $VERSION-$BUILD
-requires: libGL1 libGLU1 libX11_6 libXext6 $TURBOJPEG
+requires: libGL1 libGLU1 libX11_6 libXext6 $EXTRADEPS
 install: $ARCH/$PACKAGE-$VERSION-$BUILD.tar.bz2 $SIZE $MD5SUM
 EOF
 		done
