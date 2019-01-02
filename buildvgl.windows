@@ -27,8 +27,8 @@ nmake 2>&1
 mv VirtualGL*.exe $OUTDIR/files/
 if [ -f $SCRIPTDIR/mssign ]; then
 	. $SCRIPTDIR/mssign
-	signtool sign -f "$MS_KEY_FILE" -t http://timestamp.verisign.com/scripts/timstamp.dll -p "$MS_KEY_PASS" $OUTDIR/files/VirtualGL*64-[0-9]*.exe
-	signtool verify -pa $OUTDIR/files/VirtualGL*64-[0-9]*.exe
+	signtool sign -f "$MS_KEY_FILE" -t http://timestamp.verisign.com/scripts/timstamp.dll -p "$MS_KEY_PASS" $OUTDIR/files/VirtualGL-Utils-[0-9]*-x64.exe
+	signtool verify -pa $OUTDIR/files/VirtualGL-Utils-[0-9]*-x64.exe
 fi
 popd
 
@@ -40,8 +40,8 @@ nmake installer 2>&1
 nmake 2>&1
 mv VirtualGL*.exe $OUTDIR/files/
 if [ -f $SCRIPTDIR/mssign ]; then
-	signtool sign -f "$MS_KEY_FILE" -t http://timestamp.verisign.com/scripts/timstamp.dll -p "$MS_KEY_PASS" $OUTDIR/files/*[^6][^4]-[0-9]*.exe
-	signtool verify -pa $OUTDIR/files/*[^6][^4]-[0-9]*.exe
+	signtool sign -f "$MS_KEY_FILE" -t http://timestamp.verisign.com/scripts/timstamp.dll -p "$MS_KEY_PASS" $OUTDIR/files/VirtualGL-Utils-[0-9]*-x86.exe
+	signtool verify -pa $OUTDIR/files/VirtualGL-Utils-[0-9]*-x86.exe
 fi
 popd
 
