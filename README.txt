@@ -14,8 +14,9 @@ Build Environment: Linux
 
 Recommended distro:  Red Hat or CentOS Enterprise Linux 5 64-bit
 
-All development kits necessary to build a 32-bit and a 64-bit version of
-VirtualGL (libjpeg-turbo SDK's should be installed in the default location.)
+Install all development kits necessary to build a 32-bit and a 64-bit version
+of VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDK's should be installed in
+their default locations.  Refer to BUILDING.md for more information.)
 
 
 Build Environment: OS X
@@ -33,11 +34,10 @@ libraries.)
 
 CMake should be installed somewhere in the PATH.  The version in MacPorts
 (http://www.MacPorts.org) works, or just install the CMake application from
-the DMG (http://www.cmake.org) and sym link
-/Applications/CMake\ {version}.app/Contents/bin/cmake to a directory in your
-PATH.
+the DMG (http://www.cmake.org) and add /Applications/CMake.app/Contents/bin to
+the PATH.
 
-libjpeg-turbo SDK installed in its default location.
+The libjpeg-turbo SDK should be installed in its default location.
 
 
 Build Environment: Windows
@@ -47,9 +47,10 @@ Windows XP 64-bit or later required
 
 CMake should be installed somewhere in the PATH.
 
-All development kits necessary to build a 32-bit and a 64-bit version of
-VirtualGL (libjpeg-turbo SDK's for Visual C++ should be installed in the
-default location.)
+Install all development kits necessary to build a 32-bit and a 64-bit version
+of VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDK's for Visual C++ should
+be installed in their default locations.  Refer to BUILDING.md for more
+information.)
 
 
 Build Procedure
