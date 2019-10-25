@@ -30,4 +30,4 @@ popd
 
 popd
 
-sh `dirname $0`/gencygini $OUTDIR/files/ x86
+`dirname $0`/gencygini $OUTDIR/files/ x86

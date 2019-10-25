@@ -278,9 +278,9 @@ tar xfz $OUTDIR/files/VirtualGL-[0-9]*.tar.gz
 echo   done.
 echo Building VirtualGL for $PLATFORM...
 if [ $VERBOSE = 1 ]; then
-	sh $SCRIPTDIR/buildvgl.$PLATFORM | tee $OUTDIR/log-$PLATFORM.txt
+	$SCRIPTDIR/buildvgl.$PLATFORM | tee $OUTDIR/log-$PLATFORM.txt
 else
-	sh $SCRIPTDIR/buildvgl.$PLATFORM > $OUTDIR/log-$PLATFORM.txt
+	$SCRIPTDIR/buildvgl.$PLATFORM > $OUTDIR/log-$PLATFORM.txt
 fi
 echo   done.
 
