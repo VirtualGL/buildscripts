@@ -12,7 +12,7 @@ Additional build requirements for these scripts are listed below.
 Build Environment: Linux
 ------------------------
 
-Recommended distro:  Red Hat or CentOS Enterprise Linux 5 64-bit
+Recommended distro:  Red Hat or CentOS Enterprise Linux 6 64-bit
 
 Install all software necessary to build a 32-bit and a 64-bit version of
 VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDK's should be installed in
