@@ -49,9 +49,7 @@ CMake (the Windows native version, not the Cygwin version) should be installed
 somewhere in the `PATH`.
 
 Install all other software necessary to build a 32-bit and a 64-bit version of
-VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDK's for Visual C++ should be
-installed in their default locations.  Refer to **BUILDING.md** for more
-information.)
+VirtualGL-Utils.  Refer to **BUILDING-win.md** for more information.
 
 
 Build Procedure

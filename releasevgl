@@ -3,8 +3,6 @@
 set -u
 set -e
 
-SCRIPTDIR=`dirname $0`
-
 if [ $# -lt 2 ]; then
 	echo USAGE: $0 \<SourceForge user name\> \<Release name\>
 	exit 1
@@ -24,16 +22,10 @@ echo Uploading build ...
 ssh $SSHSERVER create
 ssh $SSHSERVER << EOF
 	mkdir "$FRSDIR/$2"
-	mkdir -p ~/buildscripts/virtualgl
 EOF
 scp $BUILDDIR/* "$SSHSERVER:$FRSDIR/'$2'/" || true
-scp $BUILDDIR/cygwin/x86/*.tar.bz2 $SSHSERVER:$FRSDIR/cygwin/x86
-scp $BUILDDIR/cygwin/x86_64/*.tar.bz2 $SSHSERVER:$FRSDIR/cygwin/x86_64
-rsync -alp --delete $SCRIPTDIR/ $SSHSERVER:buildscripts/virtualgl/
 ssh $SSHSERVER << EOF
 	rm "$FRSDIR/$2/files.txt" "$FRSDIR/$2/index.html"
-	cd "$FRSDIR"
-	~/buildscripts/virtualgl/gencygini
 	~/bin/createrepo -x 'OldFiles/*' -s sha1 --update "$FRSDIR"
 EOF
 exit 0
