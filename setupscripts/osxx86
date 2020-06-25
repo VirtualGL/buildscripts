@@ -1,7 +1,0 @@
-SCRIPTDIR=`dirname $0`
-
-LDFLAGS=-m32 \
-$SCRIPTDIR/osxx8664 \
-	-DCMAKE_C_FLAGS='-m32 -Wall' \
-	-DCMAKE_CXX_FLAGS='-m32 -Wall' \
-	${1+"$@"}
