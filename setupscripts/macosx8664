@@ -7,17 +7,17 @@ if [ "$1" = "-g" ]; then
 	shift
 fi
 
-OSX_PLATFORMDIR=/Applications/Xcode46.app/Contents/Developer
+MACOS_PLATFORMDIR=/Applications/Xcode46.app/Contents/Developer
 
 export CFLAGS='-Wall'
 export CXXFLAGS='-Wall'
-export CC=$OSX_PLATFORMDIR/usr/bin/gcc
-export CXX=$OSX_PLATFORMDIR/usr/bin/g++
+export CC=$MACOS_PLATFORMDIR/usr/bin/gcc
+export CXX=$MACOS_PLATFORMDIR/usr/bin/g++
 
 . $SCRIPTDIR/macvars
 
 cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
 	-DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 \
-	-DCMAKE_OSX_SYSROOT=$OSX_PLATFORMDIR/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk \
+	-DCMAKE_OSX_SYSROOT=$MACOS_PLATFORMDIR/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk \
 	-DCMAKE_LIBRARY_PATH=/opt/X11/lib \
 	"${CMAKEARGS[@]}" .. ${1+"$@"}

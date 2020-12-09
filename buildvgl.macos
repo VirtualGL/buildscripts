@@ -20,9 +20,9 @@ exec 2>&1
 export LD_LIBRARY_PATH=
 pushd VirtualGL-[0-9]*
 
-mkdir osxx8664
-pushd osxx8664
-$SCRIPTDIR/setupscripts/osxx8664
+mkdir macos
+pushd macos
+$SCRIPTDIR/setupscripts/macosx8664
 export NUMCPUS=`sysctl -n hw.ncpu`
 make -j$NUMCPUS --load-average=$NUMCPUS dmg
 mv VirtualGL-[0-9]*.dmg $OUTDIR/files/
