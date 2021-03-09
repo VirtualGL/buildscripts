@@ -15,7 +15,7 @@ Build Environment: Linux
 Recommended distro:  Red Hat or CentOS Enterprise Linux 6 64-bit
 
 Install all software necessary to build a 32-bit and a 64-bit version of
-VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDK's should be installed in
+VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDKs should be installed in
 their default locations.  Refer to **BUILDING.md** for more information.)
 
 
