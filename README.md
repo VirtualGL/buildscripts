@@ -59,7 +59,7 @@ Executing
 
     buildvgl [branch/tag]
 
-(where branch/tag is, for instance, "2.4.x" and defaults to "master") will
+(where branch/tag is, for instance, "2.4.x" and defaults to "main") will
 generate both a pristine source tarball and binaries for the platform on which
 the script is executed.  These are placed under
 **$HOME/src/vgl.nightly/YYYYMMDD/files**, where YYYYMMDD is a build number
