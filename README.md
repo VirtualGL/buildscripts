@@ -12,11 +12,55 @@ Additional build requirements for these scripts are listed below.
 Build Environment: Linux
 ------------------------
 
-Recommended distro:  Red Hat or CentOS Enterprise Linux 6 64-bit
+Recommended distro:  Red Hat or CentOS Enterprise Linux 6 x86-64
 
-Install all software necessary to build a 32-bit and a 64-bit version of
-VirtualGL (both 32-bit and 64-bit libjpeg-turbo SDKs should be installed in
-their default locations.  Refer to **BUILDING.md** for more information.)
+Install all software necessary to build an i386 and an x86-64 version of
+VirtualGL (both i386 and x86-64 libjpeg-turbo SDKs should be installed in their
+default locations.  Refer to **BUILDING.md** for more information.)
+
+Install a compatible x86-64 Linux hosted/AArch64 Linux target toolchain
+(available at
+<https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads>)
+under **/opt/gcc.arm64**.  Note that 9.2-2019.12 is the latest toolchain that
+will run on RHEL 6.
+
+Using `rpm2cpio`, install the following packages from Red Hat or CentOS
+Enterprise Linux 7 AArch64 under **/opt/arm64**:
+
+- libglvnd
+- libglvnd-devel
+- libglvnd-egl
+- libglvnd-glx
+- libglvnd-opengl
+- libstdc++
+- libX11
+- libX11-devel
+- libXau
+- libxcb
+- libxcb-devel
+- libXext
+- libXext-devel
+- libXi
+- libXi-devel
+- libXtst
+- libXtst-devel
+- libXv
+- libXv-devel
+- mesa-khr-devel
+- mesa-libEGL
+- mesa-libEGL-devel
+- mesa-libGL
+- mesa-libGL-devel
+- mesa-libGLU
+- mesa-libGLU-devel
+- xcb-util-keysyms
+- xcb-util-keysyms-devel
+- xorg-x11-proto-devel
+
+Using `rpm2cpio`, install the AArch64 libjpeg-turbo RPM under **/opt/arm64**.
+
+For convenience, a Docker recipe is available at
+<https://github.com/VirtualGL/docker>.
 
 
 Build Environment: OS X/macOS

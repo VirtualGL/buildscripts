@@ -1,0 +1,18 @@
+cat <<EOF >linux64-arm-toolchain.cmake
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_C_COMPILER /opt/gcc.arm64/bin/aarch64-none-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER /opt/gcc.arm64/bin/aarch64-none-linux-gnu-g++)
+set(CMAKE_FIND_ROOT_PATH /opt/arm64)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_C_FLAGS "-Wall -I/opt/arm64/usr/include -Wl,-rpath-link,/opt/arm64/usr/lib64")
+set(CMAKE_CXX_FLAGS "-Wall -I/opt/arm64/usr/include -Wl,-rpath-link,/opt/arm64/usr/lib64")
+EOF
+
+`dirname $0`/linux64 ${1+"$@"} \
+	-DCMAKE_TOOLCHAIN_FILE=linux64-arm-toolchain.cmake \
+	-DTJPEG_INCLUDE_DIR=/opt/arm64/opt/libjpeg-turbo/include \
+	-DTJPEG_LIBRARY=/opt/arm64/opt/libjpeg-turbo/lib64/libturbojpeg.a \
+	-DVGL_FAKEOPENCL=0
