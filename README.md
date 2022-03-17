@@ -27,6 +27,8 @@ will run on RHEL 6.
 Using `rpm2cpio`, install the following packages from Red Hat or CentOS
 Enterprise Linux 7 AArch64 under **/opt/arm64**:
 
+- glibc
+- glibc-devel
 - libglvnd
 - libglvnd-devel
 - libglvnd-egl
