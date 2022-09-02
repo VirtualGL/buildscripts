@@ -29,10 +29,8 @@ CMake should be installed somewhere in the `PATH`.  The version in MacPorts
 the DMG (<http://www.cmake.org>) and add
 **/Applications/CMake.app/Contents/bin** to the `PATH`.
 
-Xcode 4.6.x (available at <https://developer.apple.com/downloads> --
-Apple ID required.)  The build scripts need this in order to produce VirtualGL
-binaries that are backward compatible with OS X 10.7.  Xcode should be
-installed under **/Applications/Xcode46.app**.
+Xcode 4.1 or later (available at <https://developer.apple.com/downloads> --
+Apple ID required.)
 
 XQuartz must be installed (XQuartz provides the X11 headers and link
 libraries.)
