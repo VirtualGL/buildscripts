@@ -241,7 +241,7 @@ if [ $NOSRC = 0 ]; then
 		if [ -f $SCRIPTDIR/gpgsign ]; then
 			. $SCRIPTDIR/gpgsign
 			expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.src.rpm
-			rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.src.rpm
+			rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 		fi
 	fi
 	rm -rf VirtualGL-$VERSION

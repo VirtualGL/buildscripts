@@ -40,9 +40,9 @@ mv rpmbuild/RPMS/x86_64/VirtualGL-debuginfo-[0-9]*.x86_64.rpm $OUTDIR/files/Virt
 if [ -f $SCRIPTDIR/gpgsign ]; then
 	. $SCRIPTDIR/gpgsign
 	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
-	rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
+	rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
 	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
-	rpm --checksig $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
+	rpm --checksig -v $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
 fi
 
 export CFLAGS='-m32'
@@ -56,9 +56,9 @@ mv rpmbuild/RPMS/i386/VirtualGL-debuginfo-[0-9]*.i386.rpm $OUTDIR/files/VirtualG
 
 if [ -f $SCRIPTDIR/gpgsign ]; then
 	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
-	rpm --checksig $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
+	rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
 	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
-	rpm --checksig $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
+	rpm --checksig -v $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
 fi
 
 echo Creating binary DEBs ...
