@@ -40,10 +40,9 @@ mv rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-$VER
 mv rpmbuild/RPMS/x86_64/VirtualGL-debuginfo-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
 
 if [ -f $SCRIPTDIR/gpgsign ]; then
-	. $SCRIPTDIR/gpgsign
-	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
+	$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
 	rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
-	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
+	$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
 	rpm --checksig -v $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
 fi
 
@@ -57,9 +56,9 @@ mv rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-$VERSION
 mv rpmbuild/RPMS/i386/VirtualGL-debuginfo-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
 
 if [ -f $SCRIPTDIR/gpgsign ]; then
-	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
+	$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
 	rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
-	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
+	$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
 	rpm --checksig -v $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
 fi
 
@@ -79,6 +78,7 @@ make -j$NUMCPUS --load-average=$NUMCPUS
 make deb
 mv virtualgl_[0-9]*_amd64.deb $OUTDIR/files/
 if [ -f $SCRIPTDIR/gpgsign ]; then
+	. $SCRIPTDIR/gpgsign
 	expect $SCRIPTDIR/debsign "$GPG_KEY_PASS" "$GPG_KEY_ID" $OUTDIR/files/virtualgl_[0-9]*_amd64.deb
 fi
 popd
@@ -105,7 +105,7 @@ STRIP=/opt/gcc.arm64/bin/aarch64-none-linux-gnu-strip make rpm
 VERSION=`rpm -q -p VirtualGL-[0-9]*.aarch64.rpm | cut -f2 -d-`
 mv VirtualGL-[0-9]*.aarch64.rpm $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
 if [ -f $SCRIPTDIR/gpgsign ]; then
-	expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
+	$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
 	rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
 fi
 make deb

@@ -239,8 +239,7 @@ if [ $NOSRC = 0 ]; then
 		popd
 		mv $DIR/VirtualGL-$VERSION.src.rpm $OUTDIR/files/
 		if [ -f $SCRIPTDIR/gpgsign ]; then
-			. $SCRIPTDIR/gpgsign
-			expect $SCRIPTDIR/rpmsign "$GPG_KEY_PASS" "$GPG_KEY_NAME" $OUTDIR/files/VirtualGL-$VERSION.src.rpm
+			$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 			rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.src.rpm
 		fi
 	fi

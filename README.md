@@ -2,7 +2,7 @@ DRC's VirtualGL Build Scripts
 =============================
 
 These scripts are used to build the "official" VirtualGL binaries, which work
-on any Linux platform with GLIBC 2.12 and later, as well as Windows XP and
+on any Linux platform with GLIBC 2.17 and later, as well as Windows XP and
 later and OS X/macOS 10.7 and later.
 
 See **BUILDING.md** in the VirtualGL source for basic build requirements.
@@ -12,57 +12,10 @@ Additional build requirements for these scripts are listed below.
 Build Environment: Linux
 ------------------------
 
-Recommended distro:  Red Hat or CentOS Enterprise Linux 6 x86-64
+Recommended distro:  Red Hat or CentOS Enterprise Linux 7 x86-64
 
-Install all software necessary to build an i386 and an x86-64 version of
-VirtualGL (both i386 and x86-64 libjpeg-turbo SDKs should be installed in their
-default locations.  Refer to **BUILDING.md** for more information.)
-
-Install a compatible x86-64 Linux hosted/AArch64 Linux target toolchain
-(available at
-<https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads>)
-under **/opt/gcc.arm64**.  Note that 9.2-2019.12 is the latest toolchain that
-will run on RHEL 6.
-
-Using `rpm2cpio`, install the following packages from Red Hat or CentOS
-Enterprise Linux 7 AArch64 under **/opt/arm64**:
-
-- glibc
-- glibc-devel
-- libglvnd
-- libglvnd-devel
-- libglvnd-egl
-- libglvnd-glx
-- libglvnd-opengl
-- libstdc++
-- libX11
-- libX11-devel
-- libXau
-- libxcb
-- libxcb-devel
-- libXext
-- libXext-devel
-- libXi
-- libXi-devel
-- libXtst
-- libXtst-devel
-- libXv
-- libXv-devel
-- mesa-khr-devel
-- mesa-libEGL
-- mesa-libEGL-devel
-- mesa-libGL
-- mesa-libGL-devel
-- mesa-libGLU
-- mesa-libGLU-devel
-- xcb-util-keysyms
-- xcb-util-keysyms-devel
-- xorg-x11-proto-devel
-
-Using `rpm2cpio`, install the AArch64 libjpeg-turbo RPM under **/opt/arm64**.
-
-For convenience, a Docker recipe is available at
-<https://github.com/VirtualGL/docker>.
+Complete Linux build environment requirements are best understood by examining
+the official Docker recipe at <https://github.com/VirtualGL/docker>.
 
 
 Build Environment: OS X/macOS
