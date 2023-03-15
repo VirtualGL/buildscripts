@@ -3,7 +3,7 @@ DRC's VirtualGL Build Scripts
 
 These scripts are used to build the "official" VirtualGL binaries, which work
 on any Linux platform with GLIBC 2.17 and later, as well as Windows XP and
-later and OS X/macOS 10.7 and later.
+later and OS X/macOS 10.9 and later.
 
 See **BUILDING.md** in the VirtualGL source for basic build requirements.
 Additional build requirements for these scripts are listed below.
@@ -18,25 +18,24 @@ Complete Linux build environment requirements are best understood by examining
 the official Docker recipe at <https://github.com/VirtualGL/docker>.
 
 
-Build Environment: OS X/macOS
------------------------------
+Build Environment: macOS
+------------------------
 
-OS X/macOS 10.7 (Lion) or later required
+macOS 10.15 (Catalina) or later required
 
 CMake should be installed somewhere in the `PATH`.  The version in MacPorts
 (<http://www.MacPorts.org>) works, or just install the CMake application from
 the DMG (<http://www.cmake.org>) and add
 **/Applications/CMake.app/Contents/bin** to the `PATH`.
 
-Xcode 4.6.x (available at <https://developer.apple.com/downloads> --
-Apple ID required.)  The build scripts need this in order to produce VirtualGL
-binaries that are backward compatible with OS X 10.7.  Xcode should be
-installed under **/Applications/Xcode46.app**.
+Xcode 12.0 or later (available at <https://developer.apple.com/downloads> --
+Apple ID required.)
 
 XQuartz must be installed (XQuartz provides the X11 headers and link
 libraries.)
 
-The libjpeg-turbo SDK should be installed in its default location.
+The libjpeg-turbo SDK (v2.1.x or later) should be installed in its default
+location.
 
 
 Build Environment: Windows
