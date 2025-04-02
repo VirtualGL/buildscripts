@@ -20,11 +20,23 @@ exec 2>&1
 export LD_LIBRARY_PATH=
 pushd VirtualGL-[0-9]*
 
+if [ -f $SCRIPTDIR/setupscripts/macsign ]; then
+	. $SCRIPTDIR/setupscripts/macsign
+fi
+
 mkdir macos
 pushd macos
 $SCRIPTDIR/setupscripts/macosx8664
 export NUMCPUS=`sysctl -n hw.ncpu`
 make -j$NUMCPUS --load-average=$NUMCPUS dmg
+if [ -n "${MACOS_NOTARIZE_ID-}" -a -n "${MACOS_NOTARIZE_TEAM_ID-}" -a \
+	-n "${MACOS_NOTARIZE_PASS-}" ]; then
+	echo VirtualGL-[0-9]*.dmg ...
+	xcrun notarytool submit VirtualGL-[0-9]*.dmg \
+		--apple-id $MACOS_NOTARIZE_ID --team-id $MACOS_NOTARIZE_TEAM_ID \
+		--password $MACOS_NOTARIZE_PASS --wait
+	xcrun stapler staple VirtualGL-[0-9]*.dmg
+fi
 mv VirtualGL-[0-9]*.dmg $OUTDIR/files/
 popd
 
