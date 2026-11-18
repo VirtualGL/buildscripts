@@ -213,8 +213,8 @@ if [ $NOSRC = 0 ]; then
 		exit 1
 	fi
 	if [ "$PLATFORM" = "windows" ]; then
-		cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo .
-		nmake dist
+		CC=cl cmake -G"Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo .
+		ninja dist
 	else
 		cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo .
 		make dist

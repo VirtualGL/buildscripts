@@ -46,6 +46,8 @@ Windows XP 64-bit or later required
 CMake (the Windows native version, not the Cygwin version) should be installed
 somewhere in the `PATH`.
 
+Ninja should be installed somewhere in the `PATH`.
+
 Install all other software necessary to build a 32-bit and a 64-bit version of
 VirtualGL-Utils.  Refer to **BUILDING-win.md** for more information.
 
