@@ -13,6 +13,6 @@ EOF
 
 `dirname $0`/linux64 ${1+"$@"} \
 	-DCMAKE_TOOLCHAIN_FILE=linux64-arm-toolchain.cmake \
-	-DTJPEG_INCLUDE_DIR=/opt/arm64/opt/libjpeg-turbo/include \
-	-DTJPEG_LIBRARY=/opt/arm64/opt/libjpeg-turbo/lib64/libturbojpeg.a \
+	-DCMAKE_PREFIX_PATH=/opt/arm64/opt/libjpeg-turbo/lib64/cmake \
+	-DTURBOJPEG_STATIC=1 \
 	-DVGL_FAKEOPENCL=0

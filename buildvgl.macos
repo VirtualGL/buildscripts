@@ -17,6 +17,8 @@ fi
 
 exec 2>&1
 
+. $SCRIPTDIR/libjpeg-turbo-version
+
 export LD_LIBRARY_PATH=
 pushd VirtualGL-[0-9]*
 
@@ -26,7 +28,10 @@ fi
 
 mkdir macos
 pushd macos
-$SCRIPTDIR/setupscripts/macos
+$SCRIPTDIR/setupscripts/macos \
+	-DTURBOJPEG_VERSION=$LIBJPEG_TURBO_VERSION \
+	-DTURBOJPEG_EXACT=1 \
+	-DTURBOJPEG_PATH=/opt/libjpeg-turbo/lib/cmake
 export NUMCPUS=`sysctl -n hw.ncpu`
 make -j$NUMCPUS --load-average=$NUMCPUS dmg
 if [ -n "${MACOS_NOTARIZE_ID-}" -a -n "${MACOS_NOTARIZE_TEAM_ID-}" -a \

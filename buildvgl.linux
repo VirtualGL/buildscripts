@@ -22,6 +22,8 @@ fi
 
 exec 2>&1
 
+. $SCRIPTDIR/libjpeg-turbo-version
+
 echo Creating i386 and x86-64 binary RPMs ...
 
 mkdir -p rpmbuild/RPMS
@@ -34,7 +36,12 @@ export CXXFLAGS=
 export LDFLAGS=
 export LD_LIBRARY_PATH=
 rpmbuild --rebuild --buildroot $TMPDIR/rpmbuild/buildroot \
-	--define "_topdir $TMPDIR/rpmbuild" $OUTDIR/files/VirtualGL-[0-9]*.src.rpm
+	--define "_topdir $TMPDIR/rpmbuild" \
+	--define "turbojpeg_version $LIBJPEG_TURBO_VERSION" \
+	--define "turbojpeg_exact 1" \
+	--define "turbojpeg_path /opt/libjpeg-turbo/lib64/cmake" \
+	--define "turbojpeg_static 1" \
+	$OUTDIR/files/VirtualGL-[0-9]*.src.rpm
 VERSION=`rpm -q -p rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm | cut -f2 -d-`
 mv rpmbuild/RPMS/x86_64/VirtualGL-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-$VERSION.x86_64.rpm
 mv rpmbuild/RPMS/x86_64/VirtualGL-debuginfo-[0-9]*.x86_64.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.x86_64.rpm
@@ -50,7 +57,12 @@ export CFLAGS='-m32'
 export CXXFLAGS='-m32'
 export LDFLAGS='-m32'
 rpmbuild --rebuild --buildroot $TMPDIR/rpmbuild/buildroot --target i386 \
-	--define "_topdir $TMPDIR/rpmbuild" $OUTDIR/files/VirtualGL-[0-9]*.src.rpm
+	--define "_topdir $TMPDIR/rpmbuild" \
+	--define "turbojpeg_version $LIBJPEG_TURBO_VERSION" \
+	--define "turbojpeg_exact 1" \
+	--define "turbojpeg_path /opt/libjpeg-turbo/lib32/cmake" \
+	--define "turbojpeg_static 1" \
+	$OUTDIR/files/VirtualGL-[0-9]*.src.rpm
 VERSION=`rpm -q -p rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm | cut -f2 -d-`
 mv rpmbuild/RPMS/i386/VirtualGL-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-$VERSION.i386.rpm
 mv rpmbuild/RPMS/i386/VirtualGL-debuginfo-[0-9]*.i386.rpm $OUTDIR/files/VirtualGL-debuginfo-$VERSION.i386.rpm
@@ -72,7 +84,10 @@ pushd linux64
 export CFLAGS=
 export CXXFLAGS=
 export LDFLAGS=
-$SCRIPTDIR/setupscripts/linux64
+$SCRIPTDIR/setupscripts/linux64 \
+	-DTURBOJPEG_VERSION=$LIBJPEG_TURBO_VERSION \
+	-DTURBOJPEG_EXACT=1 \
+	-DTURBOJPEG_PATH=/opt/libjpeg-turbo/lib64/cmake
 export NUMCPUS=`grep -c '^processor' /proc/cpuinfo`
 make -j$NUMCPUS --load-average=$NUMCPUS
 make deb
@@ -84,7 +99,10 @@ fi
 popd
 
 pushd linux
-$SCRIPTDIR/setupscripts/linux
+$SCRIPTDIR/setupscripts/linux \
+	-DTURBOJPEG_VERSION=$LIBJPEG_TURBO_VERSION \
+	-DTURBOJPEG_EXACT=1 \
+	-DTURBOJPEG_PATH=/opt/libjpeg-turbo/lib32/cmake
 make -j$NUMCPUS --load-average=$NUMCPUS
 make deb
 mv virtualgl_[0-9]*_i386.deb $OUTDIR/files/
@@ -99,7 +117,10 @@ echo Creating AArch64 binary RPM and DEB ...
 
 mkdir linux64.arm
 pushd linux64.arm
-$SCRIPTDIR/setupscripts/linux64.arm
+$SCRIPTDIR/setupscripts/linux64.arm \
+	-DTURBOJPEG_VERSION=$LIBJPEG_TURBO_VERSION \
+	-DTURBOJPEG_EXACT=1 \
+	-DTURBOJPEG_PATH=/opt/arm64/opt/libjpeg-turbo/lib64/cmake
 make -j$NUMCPUS --load-average=$NUMCPUS
 STRIP=/opt/gcc.arm64/bin/aarch64-none-linux-gnu-strip make rpm
 VERSION=`rpm -q -p VirtualGL-[0-9]*.aarch64.rpm | cut -f2 -d-`

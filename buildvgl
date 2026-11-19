@@ -216,7 +216,12 @@ if [ $NOSRC = 0 ]; then
 		CC=cl cmake -G"Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo .
 		ninja dist
 	else
-		cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo .
+		. $SCRIPTDIR/libjpeg-turbo-version
+		cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+			-DTURBOJPEG_VERSION=$LIBJPEG_TURBO_VERSION \
+			-DTURBOJPEG_EXACT=1 \
+			-DTURBOJPEG_PATH=/opt/libjpeg-turbo/lib64/cmake \
+			-DTURBOJPEG_STATIC=1 .
 		make dist
 	fi
 	popd

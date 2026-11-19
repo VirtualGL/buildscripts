@@ -26,4 +26,6 @@ cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
 	-DCMAKE_OSX_SYSROOT=$MACOS_SYSROOT \
 	-DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
 	-DCMAKE_LIBRARY_PATH=/opt/X11/lib \
+	-DCMAKE_PREFIX_PATH=/opt/libjpeg-turbo/lib/cmake \
+	-DTURBOJPEG_STATIC=1 \
 	"${CMAKEARGS[@]}" .. ${1+"$@"}

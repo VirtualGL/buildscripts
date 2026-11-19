@@ -7,4 +7,6 @@ fi
 
 CFLAGS=-Wall CXXFLAGS=-Wall \
 cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+	-DCMAKE_PREFIX_PATH=/opt/libjpeg-turbo/lib64/cmake \
+	-DTURBOJPEG_STATIC=1 \
 	.. ${1+"$@"}
