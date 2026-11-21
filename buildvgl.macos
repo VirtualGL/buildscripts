@@ -27,8 +27,8 @@ fi
 mkdir macos
 pushd macos
 $SCRIPTDIR/setupscripts/macos
-export NUMCPUS=`sysctl -n hw.ncpu`
-make -j$NUMCPUS --load-average=$NUMCPUS dmg
+ninja
+ninja dmg
 if [ -n "${MACOS_NOTARIZE_ID-}" -a -n "${MACOS_NOTARIZE_TEAM_ID-}" -a \
 	-n "${MACOS_NOTARIZE_PASS-}" ]; then
 	echo VirtualGL-[0-9]*.dmg ...

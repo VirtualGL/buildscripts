@@ -73,9 +73,8 @@ export CFLAGS=
 export CXXFLAGS=
 export LDFLAGS=
 $SCRIPTDIR/setupscripts/linux64
-export NUMCPUS=`grep -c '^processor' /proc/cpuinfo`
-make -j$NUMCPUS --load-average=$NUMCPUS
-make deb
+ninja
+ninja deb
 mv virtualgl_[0-9]*_amd64.deb $OUTDIR/files/
 if [ -f $SCRIPTDIR/gpgsign ]; then
 	. $SCRIPTDIR/gpgsign
@@ -85,8 +84,8 @@ popd
 
 pushd linux
 $SCRIPTDIR/setupscripts/linux
-make -j$NUMCPUS --load-average=$NUMCPUS
-make deb
+ninja
+ninja deb
 mv virtualgl_[0-9]*_i386.deb $OUTDIR/files/
 mv virtualgl32_[0-9]*_amd64.deb $OUTDIR/files/
 if [ -f $SCRIPTDIR/gpgsign ]; then
@@ -100,15 +99,15 @@ echo Creating AArch64 binary RPM and DEB ...
 mkdir linux64.arm
 pushd linux64.arm
 $SCRIPTDIR/setupscripts/linux64.arm
-make -j$NUMCPUS --load-average=$NUMCPUS
-STRIP=/opt/gcc.arm64/bin/aarch64-none-linux-gnu-strip make rpm
+ninja
+STRIP=/opt/gcc.arm64/bin/aarch64-none-linux-gnu-strip ninja rpm
 VERSION=`rpm -q -p VirtualGL-[0-9]*.aarch64.rpm | cut -f2 -d-`
 mv VirtualGL-[0-9]*.aarch64.rpm $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
 if [ -f $SCRIPTDIR/gpgsign ]; then
 	$SCRIPTDIR/rpmsign $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
 	rpm --checksig -v $OUTDIR/files/VirtualGL-$VERSION.aarch64.rpm
 fi
-make deb
+ninja deb
 mv virtualgl_[0-9]*_arm64.deb $OUTDIR/files/
 if [ -f $SCRIPTDIR/gpgsign ]; then
 	expect $SCRIPTDIR/debsign "$GPG_KEY_PASS" "$GPG_KEY_ID" $OUTDIR/files/virtualgl_[0-9]*_arm64.deb
