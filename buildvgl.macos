@@ -32,8 +32,7 @@ $SCRIPTDIR/setupscripts/macos \
 	-DTURBOJPEG_VERSION=$LIBJPEG_TURBO_VERSION \
 	-DTURBOJPEG_EXACT=1 \
 	-DTURBOJPEG_PATH=/opt/libjpeg-turbo/lib/cmake
-export NUMCPUS=`sysctl -n hw.ncpu`
-make -j$NUMCPUS --load-average=$NUMCPUS dmg
+ninja dmg
 if [ -n "${MACOS_NOTARIZE_ID-}" -a -n "${MACOS_NOTARIZE_TEAM_ID-}" -a \
 	-n "${MACOS_NOTARIZE_PASS-}" ]; then
 	echo VirtualGL-[0-9]*.dmg ...
